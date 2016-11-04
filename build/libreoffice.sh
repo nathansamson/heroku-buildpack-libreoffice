@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # The current LibreOffice version
-VERSION="5.2.1"
+VERSION="5.2.3"
 
 # Official download for .debs
 DEB_DOWNLOAD_URL="http://download.documentfoundation.org/libreoffice/stable/${VERSION}/deb/x86_64/LibreOffice_${VERSION}_Linux_x86-64_deb.tar.gz"
@@ -33,7 +33,20 @@ archive_name=$(tar tzf libreoffice.tar.gz | sed -e 's@/.*@@' | uniq)
 tar xzf libreoffice.tar.gz
 
 cd ${archive_name}
-for f in DEBS/*.deb
+
+needed_debs="\
+	DEBS/libobasis5.2-core_* \
+	DEBS/libobasis5.2-en-us_* \
+	DEBS/libobasis5.2-en-us-res_* \
+	DEBS/libobasis5.2-en-us-writer_* \
+	DEBS/libobasis5.2-graphicfilter_* \
+	DEBS/libobasis5.2-writer_* \
+	DEBS/libreoffice5.2_* \
+	DEBS/libreoffice5.2-ure_* \
+	DEBS/libreoffice5.2-writer_* \
+	"
+
+for f in $needed_debs
 do
   ar p "$f" data.tar.gz | tar zx
 done
@@ -148,4 +161,4 @@ rm -rf ${PREFIX}/include
 tar pczf ${DEPS_FILE} ${PREFIX}
 mv ${DEPS_FILE} release/${DEPS_FILE}
 
-echo "=================================== DONE ================================"
+echo "=================================== DONE ( $temp_dir ) ================================"
