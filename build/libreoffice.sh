@@ -18,6 +18,7 @@ GLU_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
 LIBREOFFICE_BINARIES_FILE="libreoffice${VERSION}_x86-64.tar.gz"
 DEPS_FILE="libreoffice${VERSION}_x86-64_deps.tar.gz"
 
+MAKE_OPTS=-j4
 PREFIX=/app/vendor/libreoffice/deps
 mkdir -p $PREFIX
 
@@ -65,7 +66,7 @@ archive_name=$(tar tzf gettext.tar.gz | sed -e 's@/.*@@' | uniq)
 tar xzf gettext.tar.gz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -80,7 +81,7 @@ archive_name=$(tar tzf dbus.tar.gz | sed -e 's@/.*@@' | uniq)
 tar xzf dbus.tar.gz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -90,7 +91,7 @@ archive_name=$(tar tzf libffi.tar.gz | sed -e 's@/.*@@' | uniq)
 tar xzf libffi.tar.gz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -100,7 +101,7 @@ archive_name=$(tar tJf glib.tar.xz | sed -e 's@/.*@@' | uniq)
 tar xJf glib.tar.xz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -110,7 +111,7 @@ archive_name=$(tar tzf dbus-glib.tar.gz | sed -e 's@/.*@@' | uniq)
 tar xzf dbus-glib.tar.gz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -120,7 +121,7 @@ archive_name=$(tar tJf flex.tar.xz | sed -e 's@/.*@@' | uniq)
 tar xJf flex.tar.xz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -131,7 +132,7 @@ tar xJf mesa.tar.xz
 cd ${archive_name}
 ./configure --prefix=${PREFIX} --with-gallium-drivers=swrast --disable-dri3 --disable-dri \
             --disable-egl --enable-gallium-osmesa --with-osmesa-lib-name=GL --enable-glx-tls
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
@@ -141,7 +142,7 @@ archive_name=$(tar tzf glu.tar.gz | sed -e 's@/.*@@' | uniq)
 tar xzf glu.tar.gz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
-make
+make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
