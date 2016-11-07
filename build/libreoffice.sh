@@ -166,8 +166,11 @@ rm -rf ${PREFIX}/share/gtk-doc
 rm -rf ${PREFIX}/share/locale
 rm -rf ${PREFIX}/share/doc
 rm -rf ${PREFIX}/share/info
-rm -rf ${PREFIX}/bin
 rm -rf ${PREFIX}/include
+mkdir ${PREFIX}/bin-good
+cp ${PREFIX}/bin/pdftotext ${PREFIX}/bin-good/
+rm -rf ${PREFIX}/bin
+mv ${PREFIX}/bin-good ${PREFIX}/bin
 
 # Compress all dependencies
 tar pczf ${DEPS_FILE} ${PREFIX}
