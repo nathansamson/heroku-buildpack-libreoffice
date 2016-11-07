@@ -13,6 +13,7 @@ DBUS_GLIB_DOWNLOAD_URL="http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib
 FLEX_DOWNLOAD_URL="http://sourceforge.net/projects/flex/files/flex-2.5.39.tar.xz/download"
 MESA_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/11.0.4/mesa-11.0.4.tar.xz"
 GLU_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
+POPPLER_DOWNLOAD_URL="https://poppler.freedesktop.org/poppler-0.48.0.tar.xz"
 
 # File names
 LIBREOFFICE_BINARIES_FILE="libreoffice${VERSION}_x86-64.tar.gz"
@@ -119,6 +120,16 @@ cd ${temp_dir}
 curl -L ${FLEX_DOWNLOAD_URL} -o flex.tar.xz
 archive_name=$(tar tJf flex.tar.xz | sed -e 's@/.*@@' | uniq)
 tar xJf flex.tar.xz
+cd ${archive_name}
+./configure --prefix=${PREFIX}
+make ${MAKE_OPTS}
+make install
+cd ${temp_dir}
+
+# Download and build poppler
+curl -L ${POPPLER_DOWNLOAD_URL} -o poppler.tar.xz
+archive_name=$(tar tJf poppler.tar.xz | sed -e 's@/.*@@' | uniq)
+tar xJf poppler.tar.xz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
 make ${MAKE_OPTS}
