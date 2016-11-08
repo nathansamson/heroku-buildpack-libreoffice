@@ -3,11 +3,13 @@
 set -e
 
 BUILD_DIR=$1
-CACHE_DIR=$2
+CACHE_DIR=$2/libreoffice
+ENV_DIR=$3
 
 # config
 VERSION="5.2.3"
 MINOR_VERSION="5.2"
+PACK_VERSION="1.0"
 BASE_URL=https://s3.amazonaws.com/static.hubstaff.com/heroku_libreoffice_buildpack
 
 # LibreOffice Binaries URL
@@ -19,6 +21,15 @@ ARCHIVE_NAME=opt/libreoffice${VERSION}
 DEPS_FILE_NAME=libreoffice${VERSION}_x86-64_deps.tar.gz
 DEPS_BUILDPACK_LIBREOFFICE_PACKAGE=${BASE_URL}/${DEPS_FILE_NAME}
 DEPS_ARCHIVE_NAME=app/vendor/libreoffice/deps
+
+CACHE_PACK_VERSION=""
+
+if [ -e $CACHE_DIR/build_version ]; then
+  . $CACHE_DIR/build_version
+fi
+if [ "$CACHE_PACK_VERSION" != "$PACK_VERSION" ]; then
+ rm -rf $CACHE_DIR 
+fi
 
 mkdir -p $CACHE_DIR
 if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
@@ -51,3 +62,5 @@ echo 'export PATH="$HOME/vendor/libreoffice/program:/app/vendor/libreoffice/deps
 
 # configure LD_LIBRARY_PATH to include dependencies
 echo 'export LD_LIBRARY_PATH="$HOME/vendor/libreoffice/deps/lib:$LD_LIBRARY_PATH"' >> $PROFILE_PATH
+
+echo "CACHE_PACK_VERSION=$PACK_VERSION" > $CACHE_DIR/build_version
