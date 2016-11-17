@@ -168,7 +168,10 @@ rm -rf ${PREFIX}/share/doc
 rm -rf ${PREFIX}/share/info
 rm -rf ${PREFIX}/include
 mkdir ${PREFIX}/bin-good
-cp ${PREFIX}/bin/pdftotext ${PREFIX}/bin-good/
+POPPLER_BINS="pdftotext pdftoppm pdftohtml"
+for x in $POPPLER_BINS; do
+    cp ${PREFIX}/bin/$x ${PREFIX}/bin-good/$x
+done
 rm -rf ${PREFIX}/bin
 mv ${PREFIX}/bin-good ${PREFIX}/bin
 
