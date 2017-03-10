@@ -13,7 +13,7 @@ DBUS_GLIB_DOWNLOAD_URL="http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib
 FLEX_DOWNLOAD_URL="http://sourceforge.net/projects/flex/files/flex-2.5.39.tar.xz/download"
 MESA_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/11.0.4/mesa-11.0.4.tar.xz"
 GLU_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
-POPPLER_DOWNLOAD_URL="https://poppler.freedesktop.org/poppler-0.48.0.tar.xz"
+POPPLER_DOWNLOAD_URL="https://poppler.freedesktop.org/poppler-0.51.0.tar.xz"
 
 # File names
 LIBREOFFICE_BINARIES_FILE="libreoffice${VERSION}_x86-64.tar.gz"
@@ -168,7 +168,7 @@ rm -rf ${PREFIX}/share/doc
 rm -rf ${PREFIX}/share/info
 rm -rf ${PREFIX}/include
 mkdir ${PREFIX}/bin-good
-POPPLER_BINS="pdftotext pdftoppm pdftohtml"
+POPPLER_BINS="pdftotext pdftoppm pdftohtml pdftocairo"
 for x in $POPPLER_BINS; do
     cp ${PREFIX}/bin/$x ${PREFIX}/bin-good/$x
 done
