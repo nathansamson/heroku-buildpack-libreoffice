@@ -10,7 +10,7 @@ ENV_DIR=$3
 VERSION="5.2.6"
 MINOR_VERSION="5.2"
 PACK_VERSION="1.2"
-BASE_URL=https://s3.amazonaws.com/static.hubstaff.com/heroku_libreoffice_buildpack
+BASE_URL=https://s3.amazonaws.com/static.hubstaff.com/heroku_libreoffice_buildpack/${PACK_VERSION}
 
 # LibreOffice Binaries URL
 FILE_NAME=libreoffice${VERSION}_x86-64.tar.gz
