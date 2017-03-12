@@ -7,7 +7,7 @@ CACHE_DIR=$2/libreoffice
 ENV_DIR=$3
 
 # config
-VERSION="5.2.3"
+VERSION="5.2.6"
 MINOR_VERSION="5.2"
 PACK_VERSION="1.2"
 BASE_URL=https://s3.amazonaws.com/static.hubstaff.com/heroku_libreoffice_buildpack
