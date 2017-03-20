@@ -43,6 +43,7 @@ needed_debs="\
 	DEBS/libobasis5.2-en-us-writer_* \
 	DEBS/libobasis5.2-graphicfilter_* \
 	DEBS/libobasis5.2-writer_* \
+	DEBS/libobasis5.2-ooofonts_* \
 	DEBS/libreoffice5.2_* \
 	DEBS/libreoffice5.2-ure_* \
 	DEBS/libreoffice5.2-writer_* \
