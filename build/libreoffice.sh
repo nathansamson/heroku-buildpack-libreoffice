@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # The current LibreOffice version
-VERSION="5.2.6"
+VERSION="5.2.7"
 
 # Official download for .debs
 DEB_DOWNLOAD_URL="http://download.documentfoundation.org/libreoffice/stable/${VERSION}/deb/x86_64/LibreOffice_${VERSION}_Linux_x86-64_deb.tar.gz"
@@ -11,9 +11,12 @@ LIBFFI_DOWNLOAD_URL="ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz"
 GLIB_DOWNLOAD_URL="http://ftp.gnome.org/pub/gnome/sources/glib/2.38/glib-2.38.2.tar.xz"
 DBUS_GLIB_DOWNLOAD_URL="http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.100.2.tar.gz"
 FLEX_DOWNLOAD_URL="http://sourceforge.net/projects/flex/files/flex-2.5.39.tar.xz/download"
-MESA_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/11.0.4/mesa-11.0.4.tar.xz"
+MESA_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/older-versions/11.x/11.0.9/mesa-11.0.9.tar.xz"
 GLU_DOWNLOAD_URL="ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.gz"
-POPPLER_DOWNLOAD_URL="https://poppler.freedesktop.org/poppler-0.51.0.tar.xz"
+#POPPLER_DOWNLOAD_URL="https://poppler.freedesktop.org/poppler-0.51.0.tar.xz"
+OPENJPEG_DOWNLOAD_URL="https://github.com/uclouvain/openjpeg/archive/v2.1.2.tar.gz"
+POPPLER_DOWNLOAD_URL="https://github.com/NetsoftHoldings/poppler/archive/netsoft-0.56.tar.gz"
+CMAKE_DOWNLOAD_URL="https://cmake.org/files/v3.9/cmake-3.9.0-Linux-x86_64.tar.gz"
 
 # File names
 LIBREOFFICE_BINARIES_FILE="libreoffice${VERSION}_x86-64.tar.gz"
@@ -84,7 +87,7 @@ tar xzf dbus.tar.gz
 cd ${archive_name}
 ./configure --prefix=${PREFIX}
 make ${MAKE_OPTS}
-make install
+make install -k
 cd ${temp_dir}
 
 # Download and build libffi
@@ -127,12 +130,32 @@ make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
 
-# Download and build poppler
-curl -L ${POPPLER_DOWNLOAD_URL} -o poppler.tar.xz
-archive_name=$(tar tJf poppler.tar.xz | sed -e 's@/.*@@' | uniq)
-tar xJf poppler.tar.xz
+# Download and install cmake
+curl -L ${CMAKE_DOWNLOAD_URL} -o cmake.tar.gz
+archive_name=$(tar tzf cmake.tar.gz | sed -e 's@/.*@@' | uniq)
+tar xzf cmake.tar.gz
+export CMAKE=$PWD/${archive_name}/bin/cmake
+
+# Download and build openjpeg
+curl -L ${OPENJPEG_DOWNLOAD_URL} -o openjpeg.tar.gz
+archive_name=$(tar tzf openjpeg.tar.gz | sed -e 's@/.*@@' | uniq)
+tar xzf openjpeg.tar.gz
 cd ${archive_name}
-./configure --prefix=${PREFIX}
+mkdir build
+cd build
+$CMAKE .. -DCMAKE_INSTALL_PREFIX=$PREFIX
+make ${MAKE_OPTS}
+make install
+cd ${temp_dir}
+
+# Download and build poppler
+curl -L ${POPPLER_DOWNLOAD_URL} -o poppler.tar.gz
+archive_name=$(tar tzf poppler.tar.gz | sed -e 's@/.*@@' | uniq)
+tar xzf poppler.tar.gz
+cd ${archive_name}
+mkdir build
+cd build
+$CMAKE .. -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_EXE_LINKER_FLAGS=-L$PREFIX/lib -DCMAKE_SHARED_LINKER_FLAGS=-L$PREFIX/lib
 make ${MAKE_OPTS}
 make install
 cd ${temp_dir}
